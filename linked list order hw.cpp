@@ -36,10 +36,10 @@ int main(){
 	node *rear;
 	int num;
 	while(1){
-		temp = new node;
 		cout <<"Please input number"<<endl;
 		cin >> num;
 		if(num > 0){
+		    temp = new node;
 		    temp -> writeNo(num);
 		    rear = head;
 		    front = NULL;
