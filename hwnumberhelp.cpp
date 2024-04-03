@@ -1,4 +1,5 @@
 #include<iostream>
+#include<cstring>
 using namespace std;
 
 class node{	
@@ -7,8 +8,7 @@ class node{
 			no = data;
 		}
 		void writeName(char data[10]){
-			for(int i = 0; i < 10; i++)
-				name[i] = data[i];
+			strcpy(name, data);
 		}
 		void writePrg(int data){
 			prg = data;
@@ -19,7 +19,7 @@ class node{
 		int readNo(){
 			return no;
 		}
-		char* readName(){
+		char *readName(){
 			return name;
 		}
 		int readPrg(){
@@ -46,7 +46,8 @@ void inputForm(node*temp){
 	int prg,cmp;
 	char name[10];
 	cout <<"Please input name"<<endl;
-	cin >>	name;
+	cin.get();
+	cin.getline(name, 20);
 	temp -> writeName(name);
 	cout <<"Please input prg score"<<endl;
 	cin >> prg;
@@ -58,7 +59,7 @@ void inputForm(node*temp){
 
 
 void printList(node *temp){
-	cout << "head -> " << endl;
+	cout << "head : " << endl;
 	while(temp != NULL){
 		cout << "Number: " 
 			 << temp -> readNo() 
@@ -68,10 +69,10 @@ void printList(node *temp){
 			 << temp -> readPrg() 
 			 << " Cmp Score: " 
 			 << temp -> readCmp() 
-			 << " -> " << endl;
+			 << endl;
 		temp = temp -> readPtr();
 	}
-	cout << "||" << endl;
+	cout << "==" << endl;
 }
 
 int main(){
