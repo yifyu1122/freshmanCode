@@ -152,7 +152,7 @@ void printSortList(node *temp){
     	        }
     	    }
     	    else if(score >= (temp -> readPrg())+(temp -> readCmp())){
-    	        temp = temp -> readPtr();
+    	        score = (temp -> readPrg())+(temp -> readCmp())
     	    }
     	    if(temp == NULL){
     	        temp = head;
