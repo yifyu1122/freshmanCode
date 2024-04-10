@@ -91,13 +91,13 @@ class node{
 void inputForm(node*temp){
 	int prg,cmp;
 	char name[10];
-	cout <<"Please input name"<<endl;
+	cout <<"Please enter name:"<<endl;
 	cin >> name;
 	temp -> writeName(name);
-	cout <<"Please input prg score"<<endl;
+	cout <<"Please enter prg score:"<<endl;
 	cin >> prg;
 	temp -> writePrg(prg);
-	cout <<"Please input cmp score"<<endl;
+	cout <<"Please enter cmp score:"<<endl;
 	cin >> cmp;
 	temp -> writeCmp(cmp);
 }
@@ -116,7 +116,18 @@ void printList(node *temp){
 	cout << "============" << endl;
 }
 
-void printAllName(char data[10], node *head, node *front, node *rear){
+void printAllList(node *temp){
+	if(temp==NULL){
+			cout << "Database is NULL!" << endl;
+	}
+	while(temp!=NULL){
+		printList(temp);
+		temp = temp -> readPtr();
+	}
+	
+}
+
+int printAllName(char data[10], node *head, node *front, node *rear){
 	int flag = 0;
 	rear = head;
     front = NULL;
@@ -133,19 +144,18 @@ void printAllName(char data[10], node *head, node *front, node *rear){
 	}
 	if(rear==NULL){
 		if(head==NULL){
-			cout << "Database is NULL" << endl;
+			cout << "Database is NULL!" << endl;
 		}
 		else if(flag==0){
-			cout << "Data not in list" << endl;	
-			flag = 0;
+			cout << "Data not in list!" << endl;	
 		}  
 	} 	
+	return flag;
 }
 
 int main(){
-	
 	MENU m;
-	int sel, flag=0;
+	int sel, flag=0, count=0;
 	node *head = NULL;
 	node *temp;
 	node *front;
@@ -163,7 +173,7 @@ int main(){
 				cout << "You choose to leave."<< endl ;
 				break;	
 			case 1:
-				cout <<"Please input number"<<endl;
+				cout <<"Please enter a number:"<<endl;
 				cin >> num;
 				if(num > 0){
 				    temp = new node;
@@ -186,7 +196,7 @@ int main(){
 		    		        rear=rear->readPtr();
 				        }
 				        if(rear!=NULL && num == rear->readNo()){
-				        	cout << "Number already exist" << endl;
+				        	cout << "Number already exist!" << endl;
 						}
 						else{
 							inputForm(temp);
@@ -196,10 +206,8 @@ int main(){
 		    		}
 				}
 				else
-					cout << "Number out of range" << endl;
-								
+					cout << "Number out of range!" << endl;		
 				break;	
-				
 			case 2:
 				m.show2();
 				m.sel2();
@@ -209,7 +217,7 @@ int main(){
 						cout << "You choose to return to main menu."<< endl ;
 						break;	
 					case 1:
-						cout << "Please input number."<< endl ;
+						cout << "Please enter a number:"<< endl ;
 						cin >> num;
 					    rear = head;
 					    front = NULL;
@@ -226,22 +234,22 @@ int main(){
 						}
 						if(rear==NULL){
 							if(head==NULL){
-								cout << "Database is NULL" << endl;
+								cout << "Database is NULL!" << endl;
 					    		break;
 							}
 							else if(flag==0){
-								cout << "Data not in list" << endl;	
+								cout << "Data not in list!" << endl;	
 								flag = 0;
 							}  
 				    	} 		
 						break;	
 					case 2:
-						cout <<"Please input name"<<endl;
+						cout <<"Please enter name:"<<endl;
 						cin >> name;
 					    printAllName(name, head, front, rear);		
 						break;	
 					case 3:	
-						cout <<"Please input prg score."<<endl;
+						cout <<"Please enter prg score:"<<endl;
 						cin >> pScore;
 					    rear = head;
 					    front = NULL;
@@ -258,17 +266,17 @@ int main(){
 						}
 						if(rear==NULL){
 							if(head==NULL){
-								cout << "Database is NULL" << endl;
+								cout << "Database is NULL!" << endl;
 					    		break;
 							}
 							else if(flag==0){
-								cout << "Data not in list" << endl;	
+								cout << "Data not in list!" << endl;	
 								flag = 0;
 							}  
 				    	} 			
 						break;
 					case 4:	
-						cout <<"Please input cmp score."<<endl;
+						cout <<"Please enter cmp score:"<<endl;
 						cin >> cScore;
 					    rear = head;
 					    front = NULL;
@@ -285,50 +293,69 @@ int main(){
 						}
 						if(rear==NULL){
 							if(head==NULL){
-								cout << "Database is NULL" << endl;
+								cout << "Database is NULL!" << endl;
 					    		break;
 							}
 							else if(flag==0){
-								cout << "Data not in list" << endl;	
+								cout << "Data not in list!" << endl;	
 								flag = 0;
 							}  
 				    	} 			
 						break;
 					default:
-						cout << "Insert error"<< endl;	
+						cout << "Insert error!"<< endl;	
 						break;
 				}
 				break;
 			case 3:
-				cout << "Which student to delete? Please input name." << endl;
+				cout << "Which student to delete? Please enter name:" << endl;
 				cin >> name;
-				rear = head;
-			    front = NULL;
-			    while(rear!=NULL){
-					if(strcmp(name, rear->readName()) == 0){
-			        	printList(rear);
-			        	flag++;
-			        	if(rear==NULL){
-			        		break;
-						} 						
-			        }
-					front=rear;
-			        rear=rear->readPtr();		
-				}
-				if(rear==NULL){
-					if(head==NULL){
-						cout << "Database is NULL" << endl;
-			    		break;
+				count = printAllName(name, head, front, rear);
+				if(count>1){
+					cout << "The name is repeated, please enter the number to delete:" << endl;
+					cin >> num;
+					rear = head;
+				    front = NULL;
+				    while(rear!=NULL){
+						if (num == rear->readNo() && strcmp(name, rear->readName()) == 0){
+				        	//delete node
+				        	rear = rear->readPtr();
+				        	front -> writePtr(rear);
+							cout << "Data deleted!" << endl;
+							break;						
+				        }
+				        else if(num == rear->readNo() && strcmp(name, rear->readName()) != 0){
+				        	cout << "The number you entered, isn't in the list of names." << endl;
+				        	break;
+						}
+						else{
+							cout << "Data not in list!" << endl;
+						}
+						front=rear;
+				        rear=rear->readPtr();		
 					}
-					else if(flag==0){
-						cout << "Data not in list" << endl;	
-						flag = 0;
-					}  
-		    	} 	
-				
+				}
+				else if(count==1){
+					rear = head;
+				    front = NULL;
+				    while(rear!=NULL){
+						if(strcmp(name, rear->readName()) == 0){
+				        	//delete node
+				        	rear=rear->readPtr();
+				        	front -> writePtr(rear);
+							cout << "Data deleted!" << endl;
+							break;						
+				        }
+						front=rear;
+				        rear=rear->readPtr();		
+					}
+				}
+				break;
+			case 4:
+				printAllList(head);
 				break;
 			default:
-				cout << "Insert error"<< endl;	
+				cout << "Insert error!"<< endl;	
 				break;			
 		}
 	}
