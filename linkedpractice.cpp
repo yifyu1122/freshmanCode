@@ -116,13 +116,79 @@ void printList(node *temp){
 	cout << "============" << endl;
 }
 
-void printAllList(node *temp){
-	if(temp==NULL){
+void printSortList(node *temp){
+    int score, flag = 0;
+    node *head;
+    node *front;
+    node *rear;
+    node *tmp;
+    head = temp;
+    rear = temp;
+    front = NULL;
+    if(temp==NULL){
 			cout << "Database is NULL!" << endl;
 	}
-	while(temp!=NULL){
+    else if(temp -> readPtr() != NULL){
+        score = (temp -> readPrg())+(temp -> readCmp());
+        while(temp!=NULL){
+            temp = temp -> readPtr();
+            if(score < (temp -> readPrg())+(temp -> readCmp())){
+    	        tmp = temp -> readPtr();
+    	        temp -> writePtr(rear);
+    	        rear -> writePtr(tmp);
+    	        front -> writePtr(temp);
+    	        front = temp;
+    	        temp = temp -> readPtr();
+    	        if(flag==0){
+    	            head = front;
+    	            flag++;
+    	        }
+    	        if(tmp==NULL){
+    	            temp = head;
+    	            rear = temp;
+                    front = NULL;
+                    score = (temp -> readPrg())+(temp -> readCmp());
+                    flag = 0;
+    	        }
+    	    }
+    	    else if(score >= (temp -> readPrg())+(temp -> readCmp())){
+    	        temp = temp -> readPtr();
+    	    }
+    	    if(temp == NULL){
+    	        temp = head;
+    	        rear = temp;
+                front = NULL;
+                score = (temp -> readPrg())+(temp -> readCmp());
+                flag = 0;
+    	    }
+        }
+    }
+    else if(temp -> readPtr() == NULL){
+        printList(temp);
+    }
+        score = (temp -> readPrg())+(temp -> readCmp());
+        temp = temp -> readPtr();
+        if(score < (temp -> readPrg())+(temp -> readCmp())){
+            printList(temp);
+            printList(front);
+        }
+        else{
+            printList(front);
+            printList(temp);
+        }
+	
+	while(temp -> readPtr() != NULL){
+	    score = (temp -> readPrg())+(temp -> readCmp());
+	    front = rear;
+	    rear = temp;
+	    temp = temp -> readPtr();
+	    if(score < (temp -> readPrg())+(temp -> readCmp())){
+	        score =  (temp -> readPrg())+(temp -> readCmp());
+	        front = rear;
+	        rear = temp;
+	    }
 		printList(temp);
-		temp = temp -> readPtr();
+		
 	}
 	
 }
@@ -312,7 +378,7 @@ int main(){
 				cin >> name;
 				count = printAllName(name, head, front, rear);
 				if(count>1){
-					cout << "The name is repeated, please enter the number to delete:" << endl;
+					cout << "There's more than one student called " << name <<", please enter the number to delete:" << endl;
 					cin >> num;
 					rear = head;
 				    front = NULL;
@@ -328,7 +394,7 @@ int main(){
 				        	cout << "The number you entered, isn't in the list of names." << endl;
 				        	break;
 						}
-						else{
+						else if(rear==NULL){
 							cout << "Data not in list!" << endl;
 						}
 						front=rear;
@@ -341,10 +407,17 @@ int main(){
 				    while(rear!=NULL){
 						if(strcmp(name, rear->readName()) == 0){
 				        	//delete node
-				        	rear=rear->readPtr();
-				        	front -> writePtr(rear);
-							cout << "Data deleted!" << endl;
-							break;						
+				        	if(rear->readPtr()==NULL){
+				        	    head = NULL;
+				        	    cout << "Data deleted!" << endl;
+						    	break;
+				        	}
+				        	else{
+				        	    rear = rear->readPtr();
+				            	front -> writePtr(rear);
+							    cout << "Data deleted!" << endl;
+							    break;	
+				        	}
 				        }
 						front=rear;
 				        rear=rear->readPtr();		
@@ -352,7 +425,7 @@ int main(){
 				}
 				break;
 			case 4:
-				printAllList(head);
+				printSortList(head);
 				break;
 			default:
 				cout << "Insert error!"<< endl;	
