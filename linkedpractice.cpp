@@ -116,7 +116,22 @@ void printList(node *temp){
 	cout << "============" << endl;
 }
 
+node *copyList(node *head){
+    if (head == NULL) {
+        return NULL;
+    }
+    node *newNode = new node;
+    newNode->writeNo(head->readNo());
+    newNode->writeName(head->readName());
+    newNode->writePrg(head->readPrg());
+    newNode->writeCmp(head->readCmp());
+    // recursive 
+    newNode->writePtr(copyList(head->readPtr()));
+    return newNode;
+}
+
 void printSortList(node *temp){
+    temp = copyList(temp);
     if(temp==NULL){
 		cout << "Database is NULL!" << endl;
 		return;
@@ -440,4 +455,3 @@ int main(){
 		}
 	}
 }
-		    
