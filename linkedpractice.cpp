@@ -117,21 +117,38 @@ void printList(node *temp){
 }
 
 void printSortList(node *temp){
-    int score, flag = 0;
-    node *head;
-    node *front;
-    node *rear;
-    node *tmp;
-    head = temp;
-    rear = temp;
-    front = NULL;
     if(temp==NULL){
-			cout << "Database is NULL!" << endl;
+		cout << "Database is NULL!" << endl;
+		return;
 	}
-    else if(temp -> readPtr() != NULL){
+	else if(temp -> readPtr() == NULL){
+        printList(temp);
+        return;
+    }
+    int score, 
+        flag = 0, 
+        count=0;
+        
+    node *head = temp;
+    node *front = NULL;
+    node *rear= temp;
+    node *tmp;
+    
+    if(temp -> readPtr() != NULL){
         score = (temp -> readPrg())+(temp -> readCmp());
         while(temp!=NULL){
             temp = temp -> readPtr();
+            if(temp == NULL){
+                temp = head;
+    	        rear = temp;
+                front = NULL;
+                score = (temp -> readPrg())+(temp -> readCmp());
+                flag = 0;
+                if(count == 0){
+                    break;
+                }
+                count = 0;
+            }
             if(score < (temp -> readPrg())+(temp -> readCmp())){
     	        tmp = temp -> readPtr();
     	        temp -> writePtr(rear);
@@ -149,56 +166,38 @@ void printSortList(node *temp){
                     front = NULL;
                     score = (temp -> readPrg())+(temp -> readCmp());
                     flag = 0;
+                    count = 0;
     	        }
+    	        count++;
     	    }
-    	    else if(score >= (temp -> readPrg())+(temp -> readCmp())){
-    	        score = (temp -> readPrg())+(temp -> readCmp())
-					        temp = temp -> readPtr();
-             rear = rear -> readPtr();
-             if(front!=NULL){
-                 front = front -> readPtr();
-             }
-             else{
-                 front = head;
-             }
+    	    else if(score >= (temp -> readPrg())+(temp -> readCmp()) && temp -> readPtr() != NULL){
+    	        score = (temp -> readPrg())+(temp -> readCmp());
+				temp = temp -> readPtr();
+                rear = rear -> readPtr();
+                if(front!=NULL){
+                    front = front -> readPtr();
+                }
+                else{
+                    front = head;
+                }
     	    }
-    	    if(temp == NULL){
+    	    if(temp -> readPtr() == NULL){
     	        temp = head;
     	        rear = temp;
                 front = NULL;
                 score = (temp -> readPrg())+(temp -> readCmp());
                 flag = 0;
+                if(count == 0){
+                    break;
+                }
+                count = 0;
     	    }
         }
+        while(head!=NULL){
+    		printList(head);
+    		head = head -> readPtr();
+    	}
     }
-    else if(temp -> readPtr() == NULL){
-        printList(temp);
-    }
-        score = (temp -> readPrg())+(temp -> readCmp());
-        temp = temp -> readPtr();
-        if(score < (temp -> readPrg())+(temp -> readCmp())){
-            printList(temp);
-            printList(front);
-        }
-        else{
-            printList(front);
-            printList(temp);
-        }
-	
-	while(temp -> readPtr() != NULL){
-	    score = (temp -> readPrg())+(temp -> readCmp());
-	    front = rear;
-	    rear = temp;
-	    temp = temp -> readPtr();
-	    if(score < (temp -> readPrg())+(temp -> readCmp())){
-	        score =  (temp -> readPrg())+(temp -> readCmp());
-	        front = rear;
-	        rear = temp;
-	    }
-		printList(temp);
-		
-	}
-	
 }
 
 int printAllName(char data[10], node *head, node *front, node *rear){
@@ -442,4 +441,3 @@ int main(){
 	}
 }
 		    
-	
