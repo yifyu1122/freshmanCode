@@ -32,6 +32,17 @@ class MENU{
 			     << "||   Please Select One    ||" << endl
 			     << "============================" << endl;
 		}
+		void show3(){
+			cout << "============================" << endl
+    			 << "||        MODIFY...?      ||" << endl
+			     << "||------------------------||" << endl
+			     << "||1. Name                 ||" << endl
+			     << "||2. Prg Score            ||" << endl
+			     << "||3. Cmp Score            ||" << endl
+			     << "||0. Return to Main Menu  ||" << endl
+			     << "||   Please Select One    ||" << endl
+			     << "============================" << endl;
+		}
 		void sel(){
 			cin >> select;
 		}
@@ -107,7 +118,7 @@ void inputForm(node*temp){
 }
 
 
-void printList(node *temp){
+void printNode(node *temp){
 	cout << "================" << endl
 	     << "Name: " 
 		 << temp->readName() << endl
@@ -133,7 +144,7 @@ void printSortList(node *temp){
 		return;
 	}
 	else if(temp->readPtr() == NULL){
-        printList(temp);
+        printNode(temp);
         return;
     }
     
@@ -153,8 +164,18 @@ void printSortList(node *temp){
     sort(nodes, nodes+count, mycompare);
     
     for(int i=0; i<count; i++) {
-		printList(nodes[i]);
+		printNode(nodes[i]);
     }
+}
+
+void printList(node *temp){
+    while(temp!=NULL){
+    	printNode(temp);
+    	if(temp==NULL){
+    		break;
+        }
+        temp = temp->readPtr();		
+	}
 }
 
 int printAllName(char data[10], node *head, node *front, node *rear){
@@ -163,14 +184,14 @@ int printAllName(char data[10], node *head, node *front, node *rear){
     front = NULL;
     while(rear!=NULL){
 		if(strcmp(data, rear->readName()) == 0){
-        	printList(rear);
+        	printNode(rear);
         	flag++;
         	if(rear==NULL){
         		break;
 			} 						
         }
-		front=rear;
-        rear=rear->readPtr();		
+		front = rear;
+        rear = rear->readPtr();		
 	}
 	if(rear==NULL){
 		if(head==NULL){
@@ -182,6 +203,7 @@ int printAllName(char data[10], node *head, node *front, node *rear){
 	} 	
 	return flag;
 }
+
 
 int main(){
 	MENU m;
@@ -251,7 +273,7 @@ int main(){
 					    front = NULL;
 					    while(rear!=NULL){
 							if(num == rear->readNo()){
-					        	printList(rear);
+					        	printNode(rear);
 					        	flag++;
 					        	if(rear==NULL){
 					        		break;
@@ -283,7 +305,7 @@ int main(){
 					    front = NULL;
 					    while(rear!=NULL){
 							if(pScore == rear->readPrg()){
-					        	printList(rear);
+					        	printNode(rear);
 					        	flag++;
 					        	if(rear==NULL){
 					        		break;
@@ -310,7 +332,7 @@ int main(){
 					    front = NULL;
 					    while(rear!=NULL){
 							if(cScore == rear->readCmp()){
-					        	printList(rear);
+					        	printNode(rear);
 					        	flag++;
 					        	if(rear==NULL){
 					        		break;
@@ -336,6 +358,7 @@ int main(){
 				}
 				break;
 			case 3:
+			    printList(head);
 				cout << "Which student to delete? Please enter name:" << endl;
 				cin >> name;
 				count = printAllName(name, head, front, rear);
@@ -369,7 +392,7 @@ int main(){
 				    front = NULL;
 				    while(rear!=NULL){
 						if(strcmp(name, rear->readName()) == 0){
-				        	//delete node
+				        	// delete node
 				        	if(rear->readPtr() == NULL){
 				        	    head = NULL;
 				        	    cout << "Data deleted!" << endl;
@@ -391,7 +414,8 @@ int main(){
 				printSortList(head);
 				break;
 			case 5:
-			    cout << "Which data to modify? Please enter number:" << endl;
+			    printList(head);
+			    cout << "Which student's data to modify? Please enter number:" << endl;
 				cin >> num;
 				rear = head;
 			    front = NULL;
@@ -401,16 +425,47 @@ int main(){
 			    }
 			    else{
     			    while(rear!=NULL){
-    					if (num == rear->readNo()){
-    			        	printList(rear);
-    			        	//Ask which to modify?
+    			        if(num == rear->readNo()){
+    			        	printNode(rear);
+    			        	// Ask which to modif5y?
+    			        	cout << "Which data to modify?" << endl;
+    			        	m.show3();
+            				m.sel2();
+            				sel=m.showSelect2();
+            				switch(m.showSelect2()){
+            					case 0:
+            						cout << "You choose to return to main menu." << endl;
+            						break;	
+            					case 1:
+            						cout << "Please enter name:" << endl;
+            						cin >> name;
+            					    rear->writeName(name);	
+            					    cout << "Modify Success!" << endl;
+            						break;	
+            					case 2:	
+            						cout << "Please enter prg score:" << endl;
+            						cin >> pScore;
+            					    rear->writePrg(pScore);	
+            					    cout << "Modify Success!" << endl;
+            						break;
+            					case 3:	
+            						cout << "Please enter cmp score:" << endl;
+            						cin >> cScore;
+            					    rear->writeCmp(cScore);	
+            					    cout << "Modify Success!" << endl;
+            						break;
+            					default:
+            						cout << "Insert error!"<< endl;	
+            						break;
+            				}
     						break;						
     					}
-    					else if(rear==NULL){
-    						cout << "Data not in list!" << endl;
-    					}
     					front = rear;
-    			        rear = rear->readPtr();		
+    			        rear = rear->readPtr();	
+    			        if(rear==NULL){
+    						cout << "Data not in list!" << endl;
+    						break;
+    					}
 					}
 				}
 			    break;
