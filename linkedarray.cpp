@@ -15,6 +15,7 @@ class MENU{
 			     << "||2. Search Data        ||" << endl
 			     << "||3. Delete Data        ||" << endl
 			     << "||4. Print Transcript   ||" << endl
+			     << "||5. Modify Data        ||" << endl
 			     << "||0. Exit               ||" << endl
 			     << "||   Please Select One  ||" << endl
 			     << "==========================" << endl;
@@ -75,6 +76,9 @@ class node{
 		int readCmp(){
 			return cmp;
 		}
+		int readTotalScore(){
+		    return prg + cmp;
+		}
 		void writePtr(node *b){
 			ptr = b;
 		}
@@ -104,7 +108,7 @@ void inputForm(node*temp){
 
 
 void printList(node *temp){
-	cout << "==============" << endl
+	cout << "================" << endl
 	     << "Name: " 
 		 << temp->readName() << endl
 		 << "Number: " 
@@ -113,7 +117,9 @@ void printList(node *temp){
 		 << temp->readPrg()  << endl
 		 << "Cmp Score: " 
 		 << temp->readCmp()  << endl
-	     << "==============" << endl;
+		 << "Total Score: " 
+		 << temp->readTotalScore()  << endl
+	     << "================" << endl;
 }
 
 bool mycompare(node *front, node *rear){
@@ -384,6 +390,30 @@ int main(){
 			case 4:
 				printSortList(head);
 				break;
+			case 5:
+			    cout << "Which data to modify? Please enter number:" << endl;
+				cin >> num;
+				rear = head;
+			    front = NULL;
+			    if(head == NULL){
+			        cout << "Database is NULL!" << endl;
+		    		break;
+			    }
+			    else{
+    			    while(rear!=NULL){
+    					if (num == rear->readNo()){
+    			        	printList(rear);
+    			        	//Ask which to modify?
+    						break;						
+    					}
+    					else if(rear==NULL){
+    						cout << "Data not in list!" << endl;
+    					}
+    					front = rear;
+    			        rear = rear->readPtr();		
+					}
+				}
+			    break;
 			default:
 				cout << "Insert error!"<< endl;	
 				break;			
