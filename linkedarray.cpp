@@ -134,8 +134,8 @@ void printNode(node *temp){
 }
 
 bool mycompare(node *front, node *rear){
-    return (front->readPrg() + front->readCmp()) 
-           > (rear->readPrg() + rear->readCmp());
+    return front->readTotalScore()
+           > rear->readTotalScore();
 }
 
 void printSortList(node *temp){
