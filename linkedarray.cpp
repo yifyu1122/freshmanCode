@@ -45,12 +45,24 @@ class MENU{
 		}
 		void sel(){
 			cin >> select;
+			if(cin.fail()){
+			    cout << "Input error, redirect to option 1." << endl;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                select = 1;
+			}
 		}
 		int showSelect(){
 			return select;
 		}
 		void sel2(){
 			cin >> select2;
+			if(cin.fail()){
+			    cout << "Input error, redirect to option 1." << endl;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                select2 = 1;
+			}
 		}
 		int showSelect2(){
 			return select2;
@@ -102,25 +114,46 @@ class node{
 		char name[10];
 };
 
-void inputForm(node*temp){
-	int prg, cmp;
-	char name[10];
-	cout << "Please enter name:" << endl;
-	cin.get();
-	cin.getline(name, 10);
-	temp->writeName(name);
-	cout << "Please enter prg score:" << endl;
-	cin >> prg;
-	temp->writePrg(prg);
-	cout << "Please enter cmp score:" << endl;
-	cin >> cmp;
-	temp->writeCmp(cmp);
+int inputForm(node* temp) {
+    int prg, cmp;
+    char name[10];
+    
+    cout << "Please enter name:" << endl;
+    cin.ignore();
+    cin.getline(name, 10);
+    if (cin.fail()) {
+        cout << "INPUT ERROR: NAME TOO LONG!!!" << endl;
+        cin.clear();
+        cin.ignore(1000, '\n');
+        return 0;
+    }
+    temp->writeName(name);
+    cout << "Please enter prg score:" << endl;
+    cin >> prg;
+    if (cin.fail()) {
+        cout << "INPUT ERROR: NOT INTEGER!!!" << endl;
+        cin.clear();
+        cin.ignore(1000, '\n');
+        return 0;
+    }
+    temp->writePrg(prg);
+    cout << "Please enter cmp score:" << endl;
+    cin >> cmp;
+    if (cin.fail()) {
+        cout << "INPUT ERROR: NOT INTEGER!!!" << endl;
+        cin.clear();
+        cin.ignore(1000, '\n');
+        return 0;
+    }
+    temp->writeCmp(cmp);
+    cout << "Added Successfully!" << endl;
+    return 1;
 }
 
 
+
 void printNode(node *temp){
-	cout << "================" << endl
-	     << "Name: " 
+	     cout << "Name: " 
 		 << temp->readName() << endl
 		 << "Number: " 
 	 	 << temp->readNo()   << endl
@@ -164,7 +197,7 @@ void printSortList(node *temp){
         times = times->readPtr();
     }
     sort(nodes, nodes+count, mycompare);
-    
+    cout << "================" << endl;
     for(int i=0; i<count; i++) {
         cout << "Rank: " << rank << endl;
         if(i < count - 1) {
@@ -180,36 +213,37 @@ void printSortList(node *temp){
     }
 }
 
-void printList(node *temp){
-    while(temp!=NULL){
+void printList(node *temp) {
+    while(temp!=NULL) {
+        cout << "================" << endl;
     	printNode(temp);
-    	if(temp==NULL){
+    	if(temp==NULL) {
     		break;
         }
         temp = temp->readPtr();		
 	}
 }
 
-int printAllName(char data[10], node *head, node *front, node *rear){
+int printAllName(char data[10], node *head, node *front, node *rear) {
 	int flag = 0;
 	rear = head;
     front = NULL;
-    while(rear!=NULL){
-		if(strcmp(data, rear->readName()) == 0){
+    while(rear!=NULL) {
+		if(strcmp(data, rear->readName()) == 0) {
         	printNode(rear);
         	flag++;
-        	if(rear==NULL){
+        	if(rear==NULL) {
         		break;
 			} 						
         }
 		front = rear;
         rear = rear->readPtr();		
 	}
-	if(rear==NULL){
-		if(head==NULL){
+	if(rear==NULL) {
+		if(head==NULL) {
 			cout << "Database is NULL!" << endl;
 		}
-		else if(flag==0){
+		else if(flag==0) {
 			cout << "Data not in list!" << endl;	
 		}  
 	} 	
@@ -217,7 +251,7 @@ int printAllName(char data[10], node *head, node *front, node *rear){
 }
 
 
-int main(){
+int main() {
 	MENU m;
 	int sel, num, pScore, cScore, 
 	    flag = 0, count = 0;
@@ -225,45 +259,54 @@ int main(){
 	node *temp, *front, *rear;
 	char name[10];
 
-	while(m.showSelect())
-	{
+	while(m.showSelect()) {
 		m.show();
 		m.sel();
 		sel=m.showSelect();
-		switch(m.showSelect()){
+		switch(m.showSelect()) {
 			case 0:
 				cout << "You choose to leave." << endl ;
 				break;	
 			case 1:
 				cout << "Please enter a number:" <<endl;
 				cin >> num;
+				if(cin.fail()){
+			    	cout << "INPUT ERROR: NOT INTEGER!!!" << endl;
+                    cin.clear();
+                    cin.ignore(1000, '\n');
+                    break;
+                }
 				if(num > 0){
 				    temp = new node;
 				    temp->writeNo(num);
 				    rear = head;
 				    front = NULL;
-				    if(head==NULL){
-				    	inputForm(temp);
-		    		    temp->writePtr(head);
-		    		    head = temp;
+				    if(head == NULL){
+				    	if(inputForm(temp)) {
+				    	    temp->writePtr(head);
+		    		        head = temp;
+				    	}
+		    		    
 		    		}
-		    		else if(num < head->readNo()){
-		    			inputForm(temp);
-		    		    temp->writePtr(head);
-		    		    head = temp;
+		    		else if(num < head->readNo()) {
+		    			if(inputForm(temp)) {
+    		    		    temp->writePtr(head);
+    		    		    head = temp;
+		    			}
 		    		} 
 		    		else{
-				        while(rear!=NULL && num>rear->readNo()){
+				        while(rear != NULL && num > rear->readNo()) {
 				            front = rear;
 		    		        rear = rear->readPtr();
 				        }
-				        if(rear!=NULL && num == rear->readNo()){
+				        if(rear != NULL && num == rear->readNo()) {
 				        	cout << "Number already exist!" << endl;
 						}
-						else{
-							inputForm(temp);
-							temp->writePtr(rear);
-		               		front->writePtr(temp);
+						else {
+							if(inputForm(temp)) {
+    							temp->writePtr(rear);
+    		               		front->writePtr(temp);
+							}
 						}		        
 		    		}
 				}
@@ -273,33 +316,39 @@ int main(){
 			case 2:
 				m.show2();
 				m.sel2();
-				sel=m.showSelect2();
-				switch(m.showSelect2()){
+				sel = m.showSelect2();
+				switch(m.showSelect2()) {
 					case 0:
 						cout << "You choose to return to main menu." << endl;
 						break;	
 					case 1:
 						cout << "Please enter a number:" << endl;
 						cin >> num;
+						if(cin.fail()) {
+						    cout << "INPUT ERROR: NOT INTEGER!!!" << endl;
+                            cin.clear();
+                            cin.ignore(1000, '\n');
+                            break;
+                        }
 					    rear = head;
 					    front = NULL;
-					    while(rear!=NULL){
-							if(num == rear->readNo()){
+					    while(rear != NULL) {
+							if(num == rear->readNo()) {
 					        	printNode(rear);
 					        	flag++;
-					        	if(rear==NULL){
+					        	if(rear == NULL) {
 					        		break;
 								} 						
 					        }
 							front = rear;
 					        rear = rear->readPtr();		
 						}
-						if(rear==NULL){
-							if(head==NULL){
+						if(rear == NULL) {
+							if(head == NULL) {
 								cout << "Database is NULL!" << endl;
 					    		break;
 							}
-							else if(flag==0){
+							else if(flag == 0) {
 								cout << "Data not in list!" << endl;	
 								flag = 0;
 							}  
@@ -307,31 +356,40 @@ int main(){
 						break;	
 					case 2:
 						cout << "Please enter name:" << endl;
-						cin >> name;
-					    printAllName(name, head, front, rear);		
-						break;	
+						cin.ignore();
+                        cin.getline(name, 10);
+                        
+                        if (cin.fail()) {
+                            cout << "INPUT ERROR: NAME TOO LONG!!!" << endl;
+                            cin.clear();
+                            cin.ignore(10000, '\n');
+                        } 
+                        else {
+                            printAllName(name, head, front, rear);		
+                        }
+                        break;
 					case 3:	
 						cout << "Please enter prg score:" << endl;
 						cin >> pScore;
 					    rear = head;
 					    front = NULL;
-					    while(rear!=NULL){
-							if(pScore == rear->readPrg()){
+					    while(rear != NULL) {
+							if(pScore == rear->readPrg()) {
 					        	printNode(rear);
 					        	flag++;
-					        	if(rear==NULL){
+					        	if(rear == NULL) {
 					        		break;
 								} 						
 					        }
 							front = rear;
 					        rear = rear->readPtr();		
 						}
-						if(rear==NULL){
-							if(head==NULL){
+						if(rear == NULL) {
+							if(head == NULL) {
 								cout << "Database is NULL!" << endl;
 					    		break;
 							}
-							else if(flag==0){
+							else if(flag == 0) {
 								cout << "Data not in list!" << endl;	
 								flag = 0;
 							}  
@@ -342,70 +400,79 @@ int main(){
 						cin >> cScore;
 					    rear = head;
 					    front = NULL;
-					    while(rear!=NULL){
-							if(cScore == rear->readCmp()){
+					    while(rear != NULL) {
+							if(cScore == rear->readCmp()) {
 					        	printNode(rear);
 					        	flag++;
-					        	if(rear==NULL){
+					        	if(rear == NULL) {
 					        		break;
 								} 						
 					        }
 							front = rear;
 					        rear = rear->readPtr();		
 						}
-						if(rear==NULL){
-							if(head==NULL){
+						if(rear == NULL) {
+							if(head == NULL) {
 								cout << "Database is NULL!" << endl;
 					    		break;
 							}
-							else if(flag==0){
+							else if(flag == 0) {
 								cout << "Data not in list!" << endl;	
 								flag = 0;
 							}  
 				    	} 			
 						break;
 					default:
-						cout << "Insert error!"<< endl;	
+						cout << "Insert error!" << endl;	
 						break;
 				}
 				break;
 			case 3:
 			    printList(head);
 				cout << "Which student to delete? Please enter name:" << endl;
-				cin >> name;
-				count = printAllName(name, head, front, rear);
+				cin.ignore();
+				cin.getline(name, 10);
+				
+				if(cin.fail()) {
+				    cout << "INPUT ERROR: NAME TOO LONG!!!" << endl;
+				    cin.clear();
+				    cin.ignore(1000, '\n');
+				    break;
+				}
+				
+			    count = printAllName(name, head, front, rear);
 				if(count > 1){
 					cout << "There's more than one student called " << name  
 					<< ", \nplease enter student's number to delete:" << endl;
 					cin >> num;
 					rear = head;
 				    front = NULL;
-				    while(rear!=NULL){
-						if (num == rear->readNo() && strcmp(name, rear->readName()) == 0){
+				    while(rear!=NULL) {
+						if (num == rear->readNo() && strcmp(name, rear->readName()) == 0) {
 				        	//delete node
 				        	rear = rear->readPtr();
 				        	front->writePtr(rear);
 							cout << "Data deleted!" << endl;
 							break;						
 				        }
-				        else if(num == rear->readNo() && strcmp(name, rear->readName()) != 0){
+				        else if(num == rear->readNo() && strcmp(name, rear->readName()) != 0) {
 				        	cout << "The number you entered, isn't in the list of names." << endl;
 				        	break;
 						}
-						else if(rear==NULL){
+						else if(rear==NULL) {
 							cout << "Data not in list!" << endl;
 						}
 						front = rear;
 				        rear = rear->readPtr();		
 					}
 				}
-				else if(count == 1){
+				else if(count == 1) {
 					rear = head;
 				    front = NULL;
-				    while(rear!=NULL){
-						if(strcmp(name, rear->readName()) == 0){
+				    while(rear!=NULL) {
+						if(strcmp(name, rear->readName()) == 0) {
 				        	// delete node
-				        	if(rear->readPtr() == NULL){
+				        	if(rear->readPtr() == NULL) {
 				        	    head = NULL;
 				        	    cout << "Data deleted!" << endl;
 						    	break;
@@ -429,40 +496,68 @@ int main(){
 			    printList(head);
 			    cout << "Which student's data to modify? Please enter number:" << endl;
 				cin >> num;
+				
+				if(cin.fail()) {
+				    cout << "INPUT ERROR: NOT INTEGER!!!" << endl;
+                    cin.clear();
+                    cin.ignore(1000, '\n');
+                    break;
+                }
 				rear = head;
 			    front = NULL;
-			    if(head == NULL){
+			    if(head == NULL) {
 			        cout << "Database is NULL!" << endl;
 		    		break;
 			    }
 			    else{
-    			    while(rear!=NULL){
-    			        if(num == rear->readNo()){
+    			    while(rear != NULL) {
+    			        if(num == rear->readNo()) {
     			        	printNode(rear);
-    			        	// Ask which to modif5y?
+    			        	// Ask which to modify?
     			        	cout << "Which data to modify?" << endl;
     			        	m.show3();
             				m.sel2();
-            				sel=m.showSelect2();
-            				switch(m.showSelect2()){
+            				sel = m.showSelect2();
+            				switch(m.showSelect2()) {
             					case 0:
             						cout << "You choose to return to main menu." << endl;
             						break;	
             					case 1:
             						cout << "Please enter name:" << endl;
-            						cin >> name;
-            					    rear->writeName(name);	
-            					    cout << "Modify Success!" << endl;
+            						cin.ignore();
+                                    cin.getline(name, 10);
+                                    
+                                    if (cin.fail()) {
+                                        cout << "INPUT ERROR: NAME TOO LONG!!!" << endl;
+                                        cin.clear();
+                                        cin.ignore(1000, '\n');
+                                    } 
+                                    else {
+                                        rear->writeName(name);	
+                					    cout << "Modify Success!" << endl;
+                                    }
             						break;	
             					case 2:	
             						cout << "Please enter prg score:" << endl;
             						cin >> pScore;
+            						if(cin.fail()) {
+            						    cout << "INPUT ERROR: NOT INTEGER!!!" << endl;
+                                        cin.clear();
+                                        cin.ignore(1000, '\n');
+                                        break;
+            						}
             					    rear->writePrg(pScore);	
             					    cout << "Modify Success!" << endl;
             						break;
             					case 3:	
             						cout << "Please enter cmp score:" << endl;
             						cin >> cScore;
+            						if(cin.fail()) {
+            						    cout << "INPUT ERROR: NOT INTEGER!!!" << endl;
+                                        cin.clear();
+                                        cin.ignore(1000, '\n');
+                                        break;
+            						}
             					    rear->writeCmp(cScore);	
             					    cout << "Modify Success!" << endl;
             						break;
@@ -474,7 +569,7 @@ int main(){
     					}
     					front = rear;
     			        rear = rear->readPtr();	
-    			        if(rear==NULL){
+    			        if(rear == NULL) {
     						cout << "Data not in list!" << endl;
     						break;
     					}
