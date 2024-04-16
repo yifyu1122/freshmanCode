@@ -443,7 +443,7 @@ int main() {
 			    count = printAllName(name, head, front, rear);
 				if(count > 1){
 					cout << "There's more than one student called " << name  
-					<< ", \nplease enter student's number to delete:" << endl;
+					<< ", \nplease enter the student's number to delete:" << endl;
 					cin >> num;
 					rear = head;
 				    front = NULL;
