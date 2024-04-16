@@ -144,12 +144,14 @@ void printSortList(node *temp){
 		return;
 	}
 	else if(temp->readPtr() == NULL){
+	    cout << "================" << endl
+	         << "Rank: 1" << endl;
         printNode(temp);
         return;
     }
     
     node *times = temp;
-    int count = 0;
+    int count = 0, srank = 0, rank = 1;
     while(times!=NULL){
         count++;
         times = times->readPtr();
@@ -164,6 +166,16 @@ void printSortList(node *temp){
     sort(nodes, nodes+count, mycompare);
     
     for(int i=0; i<count; i++) {
+        cout << "Rank: " << rank << endl;
+        if(i < count - 1) {
+            if (nodes[i]->readTotalScore() > nodes[i+1]->readTotalScore()){
+                rank += srank + 1;
+                srank = 0;
+            }
+            else if (nodes[i]->readTotalScore() == nodes[i+1]->readTotalScore()){
+                srank++;
+            }
+        }
 		printNode(nodes[i]);
     }
 }
