@@ -445,6 +445,12 @@ int main() {
 					cout << "There's more than one student called " << name  
 					<< ", \nplease enter the student's number to delete:" << endl;
 					cin >> num;
+					if(cin.fail()) {
+					    cout << "INPUT ERROR: NOT INTEGER!!!" << endl;
+                        cin.clear();
+                        cin.ignore(1000, '\n');
+                        break;
+                    }
 					rear = head;
 				    front = NULL;
 				    while(rear!=NULL) {
@@ -455,7 +461,7 @@ int main() {
 							cout << "Data deleted!" << endl;
 							break;						
 				        }
-				        else if(num == rear->readNo() && strcmp(name, rear->readName()) != 0) {
+				        else if(num != rear->readNo() && strcmp(name, rear->readName()) == 0) {
 				        	cout << "The number you entered, isn't in the list of names." << endl;
 				        	break;
 						}
