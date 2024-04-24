@@ -177,14 +177,15 @@ class linkedList{
 		}		
 		
 		void insert(STNODE *temp) {
-			int num;
-			cout << "Please enter a number:" <<endl;
-			cin >> num;
-			if (intCheck()){
-				return;
-			}
+
 			if (isEmpty()) {
-				STNODE *rear = head;
+				if(inputForm(temp)) { // If inputForm doesn't have error, it'll return 1
+		    	    temp->writePtr(head);
+    		        head = temp;
+		    	}
+			}
+			else { // EMPTY
+			    STNODE *rear = head;
 			    STNODE *front = NULL;
 				    
 			    if(temp->readNo() < head->readNo()) { // Sort the number
@@ -208,12 +209,6 @@ class linkedList{
 						}
 					}		        
 	    		}	
-			}
-			else { // EMPTY
-			    if(inputForm(temp)) { // If inputForm doesn't have error, it'll return 1
-		    	    temp->writePtr(head);
-    		        head = temp;
-		    	}
 			}
 		}
 		
@@ -333,7 +328,8 @@ class linkedList{
 			    }
 			    
 			    STNODE *times = temp;
-			    int count = 0, srank = 0, rank = 1;
+			    int count = 0, flag = 0,
+			        srank = 0, rank = 1;
 			    
 			    // Calculate the amount of dnose in list
 			    while(times!=NULL){
@@ -349,11 +345,18 @@ class linkedList{
 			        times = times->readPtr();
 			    }
 			    
-			    for (int i=0; i<count; i++)
-			       for (int j=0; j<count-i-1; j++)
+			    for (int i=0; i<count; i++){
+			        flag = 0;
+			        for (int j=0; j<count-i-1; j++)
 			            if ( nodes[j].readTotalScore() < nodes[j+1].readTotalScore()){
+			                flag = 1;
 			            	swap(nodes[j], nodes[j+1]);
-						}
+					}
+					if (flag == 0) {
+					    break;
+					}
+			    }
+			       
 			   
 			    // Print all nodes by score with ranks
 			    cout << "================" << endl;
@@ -411,6 +414,12 @@ int main() {
 				
 			case 1: // Insertion
 				temp = new STNODE;
+				int num;
+    			cout << "Please enter a number:" <<endl;
+    			cin >> num;
+    			if (L1.intCheck()){
+					break;
+				}
 				if(num > 0){
 					temp->writeNo(num);
 					L1.insert(temp);
