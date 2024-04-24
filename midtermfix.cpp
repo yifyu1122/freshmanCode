@@ -18,7 +18,7 @@ class MENU{
 			     << "||   Please select one  ||" << endl
 			     << "==========================" << endl;
 		}
-		writeselect(int sel){
+		void writeselect(int sel){
 			select = sel;
 		}
 		int readselect(){
@@ -105,6 +105,8 @@ class linkedList{
 		        cin.ignore(1000, '\n');
 		        return 1;
 		    }
+		    else
+		        return 0;
 		}
 		
 		int intCheck(){
@@ -114,47 +116,8 @@ class linkedList{
 		        cin.ignore(1000, '\n');
 		        return 1;
 		    }
-		}
-		
-		int inputForm(STNODE *temp) {
-		    int eng, cmp;
-		    char name[20];
-		    
-		    // Enter name
-		    cout << "Please enter name:" << endl;
-		    cin.ignore();
-		    cin.getline(name, 20);
-		    
-		    // Error text
-		    if (nameCheck()){
-		    	return 0;
-			}
-		    
-		    temp->writeName(name);
-		    
-		    // Enter English Score
-		    cout << "Please enter eng score:" << endl;
-		    cin >> eng;
-		    
-		    // Error text
-		    if (intCheck()){
-		    	return 0;
-			}
-		
-		    temp->writeEng(eng);
-		    
-		    // Enter Cmp Score
-		    cout << "Please enter cmp score:" << endl;
-		    cin >> cmp;
-		    
-		    // Error text
-		    if (intCheck()) {
-		    	return 0;
-			}
-			
-		    temp->writeCmp(cmp);
-		    cout << "Added Successfully!" << endl;
-		    return 1;
+		    else
+		        return 0;
 		}
 		
 		void printNode(STNODE *temp){
@@ -177,22 +140,40 @@ class linkedList{
 		}		
 		
 		void insert(STNODE *temp) {
-
-			if (isEmpty()) {
-				if(inputForm(temp)) { // If inputForm doesn't have error, it'll return 1
-		    	    temp->writePtr(head);
-    		        head = temp;
-		    	}
+		    char name[20];
+		    int eScore, cScore;
+		    cout << "Please enter name:" << endl;
+		    cin.ignore();
+		    cin.getline(name, 20);
+		    // Error text
+		    if (nameCheck()){
+		    	return;
 			}
-			else { // EMPTY
+		    temp->writeName(name);
+    
+		    // Enter English Score
+		    cout << "Please enter eng score:" << endl;
+		    cin >> eScore;
+		    // Error text
+		    if (intCheck()){
+		    	return;
+			}
+		    temp->writeEng(eScore);
+		    
+		    // Enter Cmp Score
+		    cout << "Please enter cmp score:" << endl;
+		    cin >> cScore;
+		    // Error text
+		    if (intCheck()) {
+		    	return;
+			}
+		    temp->writeCmp(cScore);
+			if (isEmpty()) {
 			    STNODE *rear = head;
-			    STNODE *front = NULL;
-				    
+			    STNODE *front = NULL;   
 			    if(temp->readNo() < head->readNo()) { // Sort the number
-	    			if(inputForm(temp)) { // If inputForm doesn't have error, it'll return 1
-		    		    temp->writePtr(head);
-		    		    head = temp;
-	    			}
+	    		    temp->writePtr(head);
+	    		    head = temp;
 	    		} 
 	    		else{
 			        while(rear != NULL && temp->readNo() > rear->readNo()) { // Sort the number
@@ -203,12 +184,14 @@ class linkedList{
 			        	cout << "Number already exist!" << endl;
 					}
 					else { // insert node
-						if(inputForm(temp)) { // If inputForm doesn't have error, it'll return 1
-							temp->writePtr(rear);
-		               		front->writePtr(temp);
-						}
+						temp->writePtr(rear);
+	               		front->writePtr(temp);
 					}		        
 	    		}	
+			}
+			else { // EMPTY
+	    	    temp->writePtr(head);
+		        head = temp;
 			}
 		}
 		
@@ -241,7 +224,7 @@ class linkedList{
 			
 			// Print while none is found
 			if(rear==NULL) {
-				if(isEmpty()) {
+				if(!isEmpty()) {
 					cout << "Student doesn't exist! Database is NULL!" << endl;
 				}
 				else if(flag==0) { // If flag is 0, none student is found. Therefore, student doesn't exist.
@@ -393,7 +376,6 @@ int main() {
 		   *temp, *front, *rear;
 	linkedList L1;
 	
-
 	// Start to loop
 	while(m.readselect()) {
 		cout << endl; // Leave Space
@@ -423,6 +405,7 @@ int main() {
 				if(num > 0){
 					temp->writeNo(num);
 					L1.insert(temp);
+					cout << "Added Successfully!" << endl;
 				}
 				else{
 					cout << "Number out of range!" << endl;	
