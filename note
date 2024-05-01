@@ -1,0 +1,92 @@
+#include<iostream>
+using namespace std;
+
+//class A{
+//	char a;
+//	long b;
+//	
+//	public:
+//		void writeA(int x){
+//			a = x;
+//		}
+//		int readA(){
+//			return a;
+//		}
+//};
+//
+//class B: public A{
+//	float c;
+//	
+//	public:
+//		int f1(){
+//			return a;
+//		}
+//}; 
+
+class AA{
+//	protected:
+		int a;
+	public:
+		
+		AA(){
+			a = 1;
+		}
+		void writeA(int x){
+			a = x;
+		}
+		int readA(){
+			return a;
+		}
+};
+
+class BB: public virtual AA{
+	public:
+		int b;
+		BB(){
+			b = 1;
+		}
+};
+
+class CC: virtual public AA{
+	public:
+		int c;
+		CC(){
+			c = 1;
+		}
+};
+
+class DD: public BB, public CC{
+	public:
+		int fl(){
+			return a + b + c;
+		}
+};
+
+int main(){
+//	cout << sizeof(y); // int + char = int + float = int + long = 8, int + double = char + double = char + long long = 16
+	DD d;
+	cout << d.fl();
+}
+
+while(m.readselect2()) {
+	cout << endl; // Leave Space
+	
+	m.show2();  // Call the Menu
+	cin >> sel;
+	if(cin.fail()){
+        cin.clear();
+        cin.ignore(1000, '\n');
+        sel = 9;
+	}
+	m.writeselect2(sel); // Input Selection
+	
+	switch(m.readselect2()) {
+		case 1: // CS
+			break;
+		case 2: // PE
+			break;
+		default: // Error Text
+			cout << "Insert error!"<< endl;	
+			break;			
+	}
+}
