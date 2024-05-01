@@ -142,7 +142,34 @@ class linkedList{
 		void insert(STNODE *temp) {
 		    char name[20];
 		    int eScore, cScore;
-		    cout << "Please enter name:" << endl;
+		    
+			if (isEmpty()) {
+			    STNODE *rear = head;
+			    STNODE *front = NULL;   
+			    if(temp->readNo() < head->readNo()) { // Sort the number
+	    		    temp->writePtr(head);
+	    		    head = temp;
+	    		} 
+	    		else{
+			        while(rear != NULL && temp->readNo() > rear->readNo()) { // Sort the number
+			            front = rear;
+	    		        rear = rear->readPtr();
+			        }
+			        if(rear != NULL && temp->readNo() == rear->readNo()) { //Number already exist
+			        	cout << "Number already exist!" << endl;
+			        	return;
+					}
+					else { // insert node
+						temp->writePtr(rear);
+	               		front->writePtr(temp);
+					}		        
+	    		}	
+			}
+			else { // EMPTY
+	    	    temp->writePtr(head);
+		        head = temp;
+			}
+			cout << "Please enter name:" << endl;
 		    cin.ignore();
 		    cin.getline(name, 20);
 		    // Error text
@@ -168,31 +195,7 @@ class linkedList{
 		    	return;
 			}
 		    temp->writeCmp(cScore);
-			if (isEmpty()) {
-			    STNODE *rear = head;
-			    STNODE *front = NULL;   
-			    if(temp->readNo() < head->readNo()) { // Sort the number
-	    		    temp->writePtr(head);
-	    		    head = temp;
-	    		} 
-	    		else{
-			        while(rear != NULL && temp->readNo() > rear->readNo()) { // Sort the number
-			            front = rear;
-	    		        rear = rear->readPtr();
-			        }
-			        if(rear != NULL && temp->readNo() == rear->readNo()) { //Number already exist
-			        	cout << "Number already exist!" << endl;
-					}
-					else { // insert node
-						temp->writePtr(rear);
-	               		front->writePtr(temp);
-					}		        
-	    		}	
-			}
-			else { // EMPTY
-	    	    temp->writePtr(head);
-		        head = temp;
-			}
+		    cout << "Added Successfully!" << endl;
 		}
 		
 		void search(){
@@ -405,7 +408,6 @@ int main() {
 				if(num > 0){
 					temp->writeNo(num);
 					L1.insert(temp);
-					cout << "Added Successfully!" << endl;
 				}
 				else{
 					cout << "Number out of range!" << endl;	
