@@ -166,17 +166,11 @@ class linkedList{
 		}
 		
 		void printNode(STNODE1 *temp){
-			cout << "Name: " 
-				 << setw(20) << temp->readName() << endl
-				 << "Number: " 
-				 << setw(18) << temp->readNo()   << endl
-				 << "Eng Score: " 
-				 << setw(15) << temp->readEng()  << endl
-				 << "Cmp Score: " 
-				 << setw(15) << temp->readCmp()  << endl
-				 << "Total Score: " 
-			  	 << setw(13) << temp->readTotalScore()  << endl
-				 << "==========================" << endl;
+			cout << setw(23) << temp->readName() 
+				 << setw(10) << temp->readNo()   
+				 << setw(7) << temp->readEng()  
+				 << setw(7) << temp->readCmp()  
+				 << setw(9) << temp->readTotalScore()  << endl;
 		}	
 
 		void insert(STNODE1 *temp) {
@@ -255,7 +249,7 @@ class linkedList{
             // Print out all the names
             while(rear != NULL) {
 				if(strcmp(name, rear->readName()) == 0) {
-					cout << "==========================" << endl;
+					cout <<  "||         Name        || Number || Eng || Cmp || Total ||" ;
 		        	printNode(rear);
 		        	flag++; // Flag increase when student is found
 		        	if(rear == NULL) {
@@ -347,8 +341,8 @@ class linkedList{
 			
 			if(isEmpty()){
 				if(temp->readPtr() == NULL){ // When there's only one node in list
-				    cout << "==========================" << endl
-				         <<  "Rank: " << setw(20) << "1" << endl;
+				    cout <<  "|| Rank ||         Name        || Number || Eng || Cmp || Total ||"  << endl
+					<< setw(8) << "1";
 			        printNode(temp);
 			        return;
 			    }
@@ -387,7 +381,7 @@ class linkedList{
 			    // Print all nodes by score with ranks
 			    cout << "==========================" << endl;
 			    for(int i=0; i<count; i++) {
-			        cout << "Rank: " << setw(20) << rank << endl;
+			        cout << "|| Rank ||         Name        || Number || Eng || Cmp || Total ||"  << endl << setw(8) << rank;
 			        if(i < count - 1) {
 			            if (nodes[i].readTotalScore() > nodes[i+1].readTotalScore()){
 			                rank += srank + 1;
@@ -446,13 +440,9 @@ class linkedList2{
 		}
 		
 		void printNode(STNODE2 *temp){
-			cout << "Name: " 
-				 << setw(20) << temp->readName() << endl
-				 << "Number: " 
-				 << setw(18) << temp->readNo()   << endl
-				 << "Run Score: " 
-				 << setw(15) << temp->readRun()  << endl
-				 << "==========================" << endl;
+			cout << setw(23) << temp->readName()
+				 << setw(10) << temp->readNo() 
+				 << setw(7) << temp->readRun()  << endl;
 		}	
 		
 
@@ -616,8 +606,7 @@ class linkedList2{
 			
 			if(isEmpty()){
 				if(temp->readPtr() == NULL){ // When there's only one node in list
-				    cout << "==========================" << endl
-				         << "Rank: " << setw(20) << "1" << endl;
+				    cout << "|| Rank ||         Name        || Number || Run ||" << endl << setw(8) << "1";
 			        printNode(temp);
 			        return;
 			    }
@@ -654,9 +643,9 @@ class linkedList2{
 			       
 			   
 			    // Print all nodes by score with ranks
-			    cout << "==========================" << endl;
+			    cout << "|| Rank ||         Name        || Number || Run ||" << endl;
 			    for(int i=0; i<count; i++) {
-			        cout << "Rank: " << setw(20) << rank << endl;
+			        cout << setw(8) << rank;
 			        if(i < count - 1) {
 			            if (nodes[i].readRun() > nodes[i+1].readRun()){
 			                rank += srank + 1;
