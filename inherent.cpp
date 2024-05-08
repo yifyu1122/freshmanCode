@@ -1,5 +1,6 @@
 #include<iostream>
 #include<cstring>
+#include<iomanip>
 using namespace std;
 
 // Create a class called MENU
@@ -144,7 +145,7 @@ class linkedList{
 		
 		int nameCheck(){
 			if (cin.fail()) {
-		        cout << "INPUT ERROR: NAME TOO LONG!!!" << endl;
+		        cerr << "INPUT ERROR: NAME TOO LONG!!!" << endl;
 		        cin.clear();
 		        cin.ignore(1000, '\n');
 		        return 1;
@@ -155,7 +156,7 @@ class linkedList{
 		
 		int intCheck(){
 			if (cin.fail()) {
-		        cout << "INPUT ERROR: NOT INTEGER!!!" << endl;
+		        cerr << "INPUT ERROR: NOT INTEGER!!!" << endl;
 		        cin.clear();
 		        cin.ignore(1000, '\n');
 		        return 1;
@@ -166,16 +167,16 @@ class linkedList{
 		
 		void printNode(STNODE1 *temp){
 			cout << "Name: " 
-				 << temp->readName() << endl
+				 << setw(20) << temp->readName() << endl
 				 << "Number: " 
-				 << temp->readNo()   << endl
+				 << setw(18) << temp->readNo()   << endl
 				 << "Eng Score: " 
-				 << temp->readEng()  << endl
+				 << setw(15) << temp->readEng()  << endl
 				 << "Cmp Score: " 
-				 << temp->readCmp()  << endl
+				 << setw(15) << temp->readCmp()  << endl
 				 << "Total Score: " 
-				 << temp->readTotalScore()  << endl
-				 << "================" << endl;
+			  	 << setw(13) << temp->readTotalScore()  << endl
+				 << "==========================" << endl;
 		}	
 
 		void insert(STNODE1 *temp) {
@@ -254,7 +255,7 @@ class linkedList{
             // Print out all the names
             while(rear != NULL) {
 				if(strcmp(name, rear->readName()) == 0) {
-					cout << "================" << endl;
+					cout << "==========================" << endl;
 		        	printNode(rear);
 		        	flag++; // Flag increase when student is found
 		        	if(rear == NULL) {
@@ -346,8 +347,8 @@ class linkedList{
 			
 			if(isEmpty()){
 				if(temp->readPtr() == NULL){ // When there's only one node in list
-				    cout << "================" << endl
-				         << "Rank: 1" << endl;
+				    cout << "==========================" << endl
+				         <<  "Rank: " << setw(20) << "1" << endl;
 			        printNode(temp);
 			        return;
 			    }
@@ -384,9 +385,9 @@ class linkedList{
 			       
 			   
 			    // Print all nodes by score with ranks
-			    cout << "================" << endl;
+			    cout << "==========================" << endl;
 			    for(int i=0; i<count; i++) {
-			        cout << "Rank: " << rank << endl;
+			        cout << "Rank: " << setw(20) << rank << endl;
 			        if(i < count - 1) {
 			            if (nodes[i].readTotalScore() > nodes[i+1].readTotalScore()){
 			                rank += srank + 1;
@@ -424,7 +425,7 @@ class linkedList2{
 		
 		int nameCheck(){
 			if (cin.fail()) {
-		        cout << "INPUT ERROR: NAME TOO LONG!!!" << endl;
+		        cerr << "INPUT ERROR: NAME TOO LONG!!!" << endl;
 		        cin.clear();
 		        cin.ignore(1000, '\n');
 		        return 1;
@@ -435,7 +436,7 @@ class linkedList2{
 		
 		int intCheck(){
 			if (cin.fail()) {
-		        cout << "INPUT ERROR: NOT INTEGER!!!" << endl;
+		        cerr << "INPUT ERROR: NOT INTEGER!!!" << endl;
 		        cin.clear();
 		        cin.ignore(1000, '\n');
 		        return 1;
@@ -446,12 +447,12 @@ class linkedList2{
 		
 		void printNode(STNODE2 *temp){
 			cout << "Name: " 
-				 << temp->readName() << endl
+				 << setw(20) << temp->readName() << endl
 				 << "Number: " 
-				 << temp->readNo()   << endl
+				 << setw(18) << temp->readNo()   << endl
 				 << "Run Score: " 
-				 << temp->readRun()  << endl
-				 << "================" << endl;
+				 << setw(15) << temp->readRun()  << endl
+				 << "==========================" << endl;
 		}	
 		
 
@@ -523,7 +524,7 @@ class linkedList2{
             // Print out all the names
             while(rear != NULL) {
 				if(strcmp(name, rear->readName()) == 0) {
-					cout << "================" << endl;
+					cout << "==========================" << endl;
 		        	printNode(rear);
 		        	flag++; // Flag increase when student is found
 		        	if(rear == NULL) {
@@ -615,8 +616,8 @@ class linkedList2{
 			
 			if(isEmpty()){
 				if(temp->readPtr() == NULL){ // When there's only one node in list
-				    cout << "================" << endl
-				         << "Rank: 1" << endl;
+				    cout << "==========================" << endl
+				         << "Rank: " << setw(20) << "1" << endl;
 			        printNode(temp);
 			        return;
 			    }
@@ -653,9 +654,9 @@ class linkedList2{
 			       
 			   
 			    // Print all nodes by score with ranks
-			    cout << "================" << endl;
+			    cout << "==========================" << endl;
 			    for(int i=0; i<count; i++) {
-			        cout << "Rank: " << rank << endl;
+			        cout << "Rank: " << setw(20) << rank << endl;
 			        if(i < count - 1) {
 			            if (nodes[i].readRun() > nodes[i+1].readRun()){
 			                rank += srank + 1;
@@ -729,7 +730,7 @@ int main() {
 							L1.insert(temp1);
 						}
 						else{
-							cout << "Number out of range!" << endl;	
+							cerr << "Number out of range!" << endl;	
 						}	
 						break;
 					case 2: // PE
@@ -745,11 +746,11 @@ int main() {
 							L2.insert(temp2);
 						}
 						else{
-							cout << "Number out of range!" << endl;	
+							cerr << "Number out of range!" << endl;	
 						}
 						break;
 					default: // Error Text
-						cout << "Insert error!"<< endl;	
+						cerr << "Insert error!"<< endl;	
 						break;			
 				}
 
@@ -772,7 +773,7 @@ int main() {
 						L2.search();
 						break;
 					default: // Error Text
-						cout << "Insert error!"<< endl;	
+						cerr << "Insert error!"<< endl;	
 						break;			
 				}
 				break;
@@ -795,7 +796,7 @@ int main() {
 						L2.del();
 						break;
 					default: // Error Text
-						cout << "Insert error!"<< endl;	
+						cerr << "Insert error!"<< endl;	
 						break;			
 				}
 				break;
@@ -818,7 +819,7 @@ int main() {
 						L2.printList();
 						break;
 					default: // Error Text
-						cout << "Insert error!"<< endl;	
+						cerr << "Insert error!"<< endl;	
 						break;			
 				}
 				break;
@@ -841,13 +842,13 @@ int main() {
 						L2.printSortList();
 						break;
 					default: // Error Text
-						cout << "Insert error!"<< endl;	
+						cerr << "Insert error!"<< endl;	
 						break;			
 				}
 				break;
 				
 			default: // Error Text
-				cout << "Insert error!"<< endl;	
+				cerr << "Insert error!"<< endl;	
 				break;			
 		}
 	}
