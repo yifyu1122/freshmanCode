@@ -85,10 +85,10 @@ class STNODE1: public ST{
 		int readTotalScore(){
 		    return eng + cmp;
 		}
-		void writePtr(ST *b){
+		void writePtr(STNODE1 *b){
 			ptr = b;
 		}
-		ST *readPtr(){
+		STNODE1 *readPtr(){
 			return ptr;
 		}	
 		
@@ -100,7 +100,7 @@ class STNODE1: public ST{
 		}
 	protected:
 		int eng, cmp;
-		ST *ptr;
+		STNODE1 *ptr;
 };
 
 class STNODE2: public ST{	
@@ -111,10 +111,10 @@ class STNODE2: public ST{
 		int readRun(){
 			return run;
 		}
-		void writePtr(ST *b){
+		void writePtr(STNODE2 *b){
 			ptr = b;
 		}
-		ST *readPtr(){
+		STNODE2 *readPtr(){
 			return ptr;
 		}	
 		
@@ -125,7 +125,7 @@ class STNODE2: public ST{
 		}
 	protected:
 		int run;
-		ST *ptr;
+		STNODE2 *ptr;
 };
 
 class linkedList{
@@ -177,12 +177,7 @@ class linkedList{
 				 << temp->readTotalScore()  << endl
 				 << "================" << endl;
 		}	
-		
-		bool mycompare(STNODE1 front, STNODE1 rear){
-		    return front.readTotalScore()
-		           > rear.readTotalScore();
-		}		
-		
+
 		void insert(STNODE1 *temp) {
 		    char name[20];
 		    int eScore, cScore;
@@ -459,11 +454,7 @@ class linkedList2{
 				 << "================" << endl;
 		}	
 		
-		bool mycompare(STNODE2 front, STNODE2 rear){
-		    return front.readTotalScore()
-		           > rear.readTotalScore();
-		}		
-		
+
 		void insert(STNODE2 *temp) {
 		    char name[20];
 		    int rScore;
@@ -503,7 +494,7 @@ class linkedList2{
 			}
 		    temp->writeName(name);
     
-		    // Enter English Score
+		    // Enter Running Score
 		    cout << "Please enter run score:" << endl;
 		    cin >> rScore;
 		    // Error text
@@ -651,7 +642,7 @@ class linkedList2{
 			    for (int i=0; i<count; i++){
 			        flag = 0;
 			        for (int j=0; j<count-i-1; j++)
-			            if ( nodes[j].readTotalScore() < nodes[j+1].readTotalScore()){
+			            if ( nodes[j].readRun() < nodes[j+1].readRun()){
 			                flag = 1;
 			            	swap(nodes[j], nodes[j+1]);
 					}
@@ -666,11 +657,11 @@ class linkedList2{
 			    for(int i=0; i<count; i++) {
 			        cout << "Rank: " << rank << endl;
 			        if(i < count - 1) {
-			            if (nodes[i].readTotalScore() > nodes[i+1].readTotalScore()){
+			            if (nodes[i].readRun() > nodes[i+1].readRun()){
 			                rank += srank + 1;
 			                srank = 0;
 			            }
-			            else if (nodes[i].readTotalScore() == nodes[i+1].readTotalScore()){
+			            else if (nodes[i].readRun() == nodes[i+1].readRun()){
 			                srank++;
 			            }
 			        }
@@ -695,60 +686,9 @@ int main() {
 	STNODE1 *temp1;
 	STNODE2 *temp2;
 	linkedList L1;
-	linkedList L2;
+	linkedList2 L2;
 	
-	// Start to loop
-	while(m.readselect2()) {
-		cout << endl; // Leave Space
-		
-		m.show2();  // Call the Menu
-		cin >> sel;
-		if(cin.fail()){
-            cin.clear();
-            cin.ignore(1000, '\n');
-            sel = 9;
-		}
-		m.writeselect2(sel); // Input Selection
-		
-		switch(m.readselect2()) {
-			case 1: // Insertion
-				temp = new STNODE;
-				int num;
-    			cout << "Please enter a number:" <<endl;
-    			cin >> num;
-    			if (L1.intCheck()){
-					break;
-				}
-				if(num > 0){
-					temp->writeNo(num);
-					L1.insert(temp);
-				}
-				else{
-					cout << "Number out of range!" << endl;	
-				}	
-				break;
-				
-			case 2: // Search
-				L1.search();
-				break;
-                
-			case 3: // Deletion
-				L1.del();
-				break;
-				
-			case 4: // Print List Data
-				L1.printList();
-				break;
-				
-			case 5: // Print Transcript
-			    L1.printSortList();
-				break;
-				
-			default: // Error Text
-				cout << "Insert error!"<< endl;	
-				break;			
-		}
-	}
+
 	while(m.readselect()) {
 		cout << endl; // Leave Space
 		
@@ -767,164 +707,142 @@ int main() {
 				break;	
 				
 			case 1: // Insertion
-				while(m.readselect2()) {
-					cout << endl; // Leave Space
-					
-					m.show2();  // Call the Menu
-					cin >> sel;
-					if(cin.fail()){
-			            cin.clear();
-			            cin.ignore(1000, '\n');
-			            sel = 9;
-					}
-					m.writeselect2(sel); // Input Selection
-					
-					switch(m.readselect2()) {
-						case 1: // CS
-							temp = new STNODE1;
-							int num;
-			    			cout << "Please enter a number:" <<endl;
-			    			cin >> num;
-			    			if (L1.intCheck()){
-								break;
-							}
-							if(num > 0){
-								temp->writeNo(num);
-								L1.insert(temp);
-							}
-							else{
-								cout << "Number out of range!" << endl;	
-							}	
+				m.show2();  // Call the Menu
+				cin >> sel;
+				if(cin.fail()){
+		            cin.clear();
+		            cin.ignore(1000, '\n');
+		            sel = 9;
+				}
+				m.writeselect2(sel); // Input Selection
+				
+				switch(m.readselect2()) {
+					case 1: // CS
+						temp1 = new STNODE1;
+		    			cout << "Please enter a number:" <<endl;
+		    			cin >> num;
+		    			if (L1.intCheck()){
 							break;
-						case 2: // PE
-						temp = new STNODE2;
-							int num;
-			    			cout << "Please enter a number:" <<endl;
-			    			cin >> num;
-			    			if (L2.intCheck()){
-								break;
-							}
-							if(num > 0){
-								temp->writeNo(num);
-								L2.insert(temp);
-							}
-							else{
-								cout << "Number out of range!" << endl;	
-							}
+						}
+						if(num > 0){
+							temp1->writeNo(num);
+							L1.insert(temp1);
+						}
+						else{
+							cout << "Number out of range!" << endl;	
+						}	
+						break;
+					case 2: // PE
+						temp2 = new STNODE2;
+						int num;
+		    			cout << "Please enter a number:" <<endl;
+		    			cin >> num;
+		    			if (L2.intCheck()){
 							break;
-						default: // Error Text
-							cout << "Insert error!"<< endl;	
-							break;			
-					}
+						}
+						if(num > 0){
+							temp2->writeNo(num);
+							L2.insert(temp2);
+						}
+						else{
+							cout << "Number out of range!" << endl;	
+						}
+						break;
+					default: // Error Text
+						cout << "Insert error!"<< endl;	
+						break;			
 				}
 
 				break;
 			case 2: // Search
-				while(m.readselect2()) {
-					cout << endl; // Leave Space
-					
-					m.show2();  // Call the Menu
-					cin >> sel;
-					if(cin.fail()){
-			            cin.clear();
-			            cin.ignore(1000, '\n');
-			            sel = 9;
-					}
-					m.writeselect2(sel); // Input Selection
-					
-					switch(m.readselect2()) {
-						case 1: // CS
-							L1.search();
-							break;
-						case 2: // PE
-							L2.search();
-							break;
-						default: // Error Text
-							cout << "Insert error!"<< endl;	
-							break;			
-					}
+				m.show2();  // Call the Menu
+				cin >> sel;
+				if(cin.fail()){
+		            cin.clear();
+		            cin.ignore(1000, '\n');
+		            sel = 9;
+				}
+				m.writeselect2(sel); // Input Selection
+				
+				switch(m.readselect2()) {
+					case 1: // CS
+						L1.search();
+						break;
+					case 2: // PE
+						L2.search();
+						break;
+					default: // Error Text
+						cout << "Insert error!"<< endl;	
+						break;			
 				}
 				break;
                 
 			case 3: // Deletion
-				while(m.readselect2()) {
-					cout << endl; // Leave Space
-					
-					m.show2();  // Call the Menu
-					cin >> sel;
-					if(cin.fail()){
-				        cin.clear();
-				        cin.ignore(1000, '\n');
-				        sel = 9;
-					}
-					m.writeselect2(sel); // Input Selection
-					
-					switch(m.readselect2()) {
-						case 1: // CS
-							L1.del();
-							break;
-						case 2: // PE
-							L2.del();
-							break;
-						default: // Error Text
-							cout << "Insert error!"<< endl;	
-							break;			
-					}
+				m.show2();  // Call the Menu
+				cin >> sel;
+				if(cin.fail()){
+			        cin.clear();
+			        cin.ignore(1000, '\n');
+			        sel = 9;
 				}
+				m.writeselect2(sel); // Input Selection
 				
+				switch(m.readselect2()) {
+					case 1: // CS
+						L1.del();
+						break;
+					case 2: // PE
+						L2.del();
+						break;
+					default: // Error Text
+						cout << "Insert error!"<< endl;	
+						break;			
+				}
 				break;
 				
 			case 4: // Print List Data
-				while(m.readselect2()) {
-					cout << endl; // Leave Space
-					
-					m.show2();  // Call the Menu
-					cin >> sel;
-					if(cin.fail()){
-				        cin.clear();
-				        cin.ignore(1000, '\n');
-				        sel = 9;
-					}
-					m.writeselect2(sel); // Input Selection
-					
-					switch(m.readselect2()) {
-						case 1: // CS
-							L1.printList();
-							break;
-						case 2: // PE
-							L2.printList();
-							break;
-						default: // Error Text
-							cout << "Insert error!"<< endl;	
-							break;			
-					}
+				m.show2();  // Call the Menu
+				cin >> sel;
+				if(cin.fail()){
+			        cin.clear();
+			        cin.ignore(1000, '\n');
+			        sel = 9;
+				}
+				m.writeselect2(sel); // Input Selection
+				
+				switch(m.readselect2()) {
+					case 1: // CS
+						L1.printList();
+						break;
+					case 2: // PE
+						L2.printList();
+						break;
+					default: // Error Text
+						cout << "Insert error!"<< endl;	
+						break;			
 				}
 				break;
 				
-			case 5: // Print Transcript
-				while(m.readselect2()) {
-					cout << endl; // Leave Space
-					
-					m.show2();  // Call the Menu
-					cin >> sel;
-					if(cin.fail()){
-				        cin.clear();
-				        cin.ignore(1000, '\n');
-				        sel = 9;
-					}
-					m.writeselect2(sel); // Input Selection
-					
-					switch(m.readselect2()) {
-						case 1: // CS
-							L1.printSortList();
-							break;
-						case 2: // PE
-							L2.printSortList();
-							break;
-						default: // Error Text
-							cout << "Insert error!"<< endl;	
-							break;			
-					}
+			case 5: // Print Transcript	
+				m.show2();  // Call the Menu
+				cin >> sel;
+				if(cin.fail()){
+			        cin.clear();
+			        cin.ignore(1000, '\n');
+			        sel = 9;
+				}
+				m.writeselect2(sel); // Input Selection
+				
+				switch(m.readselect2()) {
+					case 1: // CS
+						L1.printSortList();
+						break;
+					case 2: // PE
+						L2.printSortList();
+						break;
+					default: // Error Text
+						cout << "Insert error!"<< endl;	
+						break;			
 				}
 				break;
 				
