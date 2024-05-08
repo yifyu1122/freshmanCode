@@ -342,7 +342,7 @@ class linkedList{
 			if(isEmpty()){
 				if(temp->readPtr() == NULL){ // When there's only one node in list
 				    cout <<  "|| Rank ||         Name        || Number || Eng || Cmp || Total ||"  << endl
-					<< setw(8) << "1";
+					<< setw(7) << "1";
 			        printNode(temp);
 			        return;
 			    }
@@ -379,9 +379,9 @@ class linkedList{
 			       
 			   
 			    // Print all nodes by score with ranks
-			    cout << "==========================" << endl;
+			    cout << "|| Rank ||         Name        || Number || Eng || Cmp || Total ||" << endl;
 			    for(int i=0; i<count; i++) {
-			        cout << "|| Rank ||         Name        || Number || Eng || Cmp || Total ||"  << endl << setw(8) << rank;
+			        cout << setw(7) << rank;
 			        if(i < count - 1) {
 			            if (nodes[i].readTotalScore() > nodes[i+1].readTotalScore()){
 			                rank += srank + 1;
@@ -606,7 +606,7 @@ class linkedList2{
 			
 			if(isEmpty()){
 				if(temp->readPtr() == NULL){ // When there's only one node in list
-				    cout << "|| Rank ||         Name        || Number || Run ||" << endl << setw(8) << "1";
+				    cout << "|| Rank ||         Name        || Number || Run ||" << endl << setw(7) << "1";
 			        printNode(temp);
 			        return;
 			    }
@@ -645,7 +645,7 @@ class linkedList2{
 			    // Print all nodes by score with ranks
 			    cout << "|| Rank ||         Name        || Number || Run ||" << endl;
 			    for(int i=0; i<count; i++) {
-			        cout << setw(8) << rank;
+			        cout << setw(7) << rank;
 			        if(i < count - 1) {
 			            if (nodes[i].readRun() > nodes[i+1].readRun()){
 			                rank += srank + 1;
