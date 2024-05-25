@@ -470,17 +470,19 @@ class linkedList{
 			STNODE1 *tail = NULL;
 			string na;
 			int no, eng, cmp;
+			char name[20];
 			ifstream input("datacs.txt");
 			if (!input) {
-                cerr << "Unable to open file datacs.txt" << endl;
+                cerr << "datacs.txt doesn't exist'" << endl;
                 return 0;
             }
-			while (!input.eof()){
-				STNODE1 *temp = new STNODE1;
-				input >> no >> eng >> cmp;
+			while (input >> no >> eng >> cmp){				
+				input.ignore();
 				getline(input, na);
-				input.get();
-				strcpy(temp->readName(), na.c_str());
+				STNODE1 *temp = new STNODE1;
+				const char* c_str = na.c_str();
+				strcpy(name, c_str);
+				temp->writeName(name);
 				temp->writeNo(no);
 				temp->writeEng(eng);
 				temp->writeCmp(cmp);
@@ -488,13 +490,14 @@ class linkedList{
 				if (head == NULL) {
 		            head = temp;
 		            tail = temp;
-		        } else {
+		        } 
+				else {
 		            tail->writePtr(temp);
 		            tail = temp;
 		        }
 			}
 			input.close();
-			return 0;
+			return head;
 		}
 };
 
@@ -809,6 +812,39 @@ class linkedList2{
 				return;
 			}
 		}
+		
+		STNODE2 *readfile(){
+			STNODE2 *tail = NULL;
+			string na;
+			int no, run;
+			char name[20];
+			ifstream input("datape.txt");
+			if (!input) {
+                cerr << "datape.txt doesn't exist'" << endl;
+                return 0;
+            }
+			while (input >> no >> run){				
+				input.ignore();
+				getline(input, na);
+				STNODE2 *temp = new STNODE2;
+				const char* c_str = na.c_str();
+				strcpy(name, c_str);
+				temp->writeName(name);
+				temp->writeNo(no);
+				temp->writeRun(run);
+		        
+				if (head == NULL) {
+		            head = temp;
+		            tail = temp;
+		        } 
+				else {
+		            tail->writePtr(temp);
+		            tail = temp;
+		        }
+			}
+			input.close();
+			return head;
+		}
 
 };
 
@@ -825,11 +861,11 @@ int main() {
 	linkedList L1;
 	linkedList2 L2;
 	L1.readfile();
+	L2.readfile();
     ofstream file("datacs.txt");
 	ofstream file2("datape.txt");
 	while(m.readselect()) {
-		cout << endl; // Leave Space
-		
+		cout << endl; // Leave Space		
 		m.show();  // Call the Menu
 		cin >> sel;
 		if(cin.fail()){
