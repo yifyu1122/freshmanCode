@@ -461,11 +461,11 @@ class linkedList{
 			                srank++;
 			            }
 			        }
-			        file << setw(23) <<&nodes[i].readName
-						 << setw(10) << &nodes[i].readNo  
-						 << setw(7) << &nodes[i].readEng 
-						 << setw(7) << &nodes[i].readCmp
-						 << setw(9) << &nodes[i].readTotalScore << endl;
+			        file << setw(23) << nodes[i].readName()
+						 << setw(10) << nodes[i].readNo()
+						 << setw(7) << nodes[i].readEng() 
+						 << setw(7) << nodes[i].readCmp()
+						 << setw(9) << nodes[i].readTotalScore() << endl;
 			    }
 			}
 			else {  // When head is empty
