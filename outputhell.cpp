@@ -251,7 +251,7 @@ class linkedList{
             // Print out all the names
             while(rear != NULL) {
 				if(strcmp(name, rear->readName()) == 0) {
-					cout <<  "||         Name        || Number || Eng || Cmp || Total ||" ;
+					cout <<  "||         Name        || Number || Eng || Cmp || Total ||" << endl ;
 		        	printNode(rear);
 		        	flag++; // Flag increase when student is found
 		        	if(rear == NULL) {
@@ -407,10 +407,10 @@ class linkedList{
 			temp = head;
 			if(isEmpty()){
 				if(temp->readPtr() == NULL){ // When there's only one node in list
-			        file << setw(10) << temp->readNo()   
-						 << setw(7) << temp->readEng()  
-						 << setw(7) << temp->readCmp()
-						 << setw(23) << temp->readName() << endl;
+			        file <<temp->readNo()   
+						 << " " << temp->readEng()  
+						 << " " << temp->readCmp()
+						 << " " << temp->readName() << endl;
 			        return;
 			    }
 			    
@@ -454,10 +454,10 @@ class linkedList{
 			                srank++;
 			            }
 			        }
-			        file << setw(10) << &nodes[i].readNo  
-						 << setw(7) << &nodes[i].readEng 
-						 << setw(7) << &nodes[i].readCmp
-						 << setw(23) <<&nodes[i].readName << endl;
+			        file << nodes[i].readNo()  
+						 << " " << nodes[i].readEng() 
+						 << " " << nodes[i].readCmp()
+						 << " " <<nodes[i].readName() << endl;
 			    }
 			}
 			else {  // When head is empty
@@ -465,6 +465,37 @@ class linkedList{
 			}
 		}
 
+		
+		STNODE1 *readfile(){
+			STNODE1 *tail = NULL;
+			string na;
+			int no, eng, cmp;
+			ifstream input("datacs.txt");
+			if (!input) {
+                cerr << "Unable to open file datacs.txt" << endl;
+                return 0;
+            }
+			while (!input.eof()){
+				STNODE1 *temp = new STNODE1;
+				input >> no >> eng >> cmp;
+				getline(input, na);
+				input.get();
+				strcpy(temp->readName(), na.c_str());
+				temp->writeNo(no);
+				temp->writeEng(eng);
+				temp->writeCmp(cmp);
+		        
+				if (head == NULL) {
+		            head = temp;
+		            tail = temp;
+		        } else {
+		            tail->writePtr(temp);
+		            tail = temp;
+		        }
+			}
+			input.close();
+			return 0;
+		}
 };
 
 class linkedList2{
@@ -732,9 +763,9 @@ class linkedList2{
 			temp = head;
 			if(isEmpty()){
 				if(temp->readPtr() == NULL){ // When there's only one node in list
-			        file << setw(7) << temp->readNo()
-						 << setw(10) << temp->readRun() 
-					     << setw(23) << temp->readName()<< endl;
+			        file << temp->readNo()
+						 << " " << temp->readRun() 
+					     << " " << temp->readName()<< endl;
 			        return;
 			    }
 			    
@@ -768,38 +799,20 @@ class linkedList2{
 					}
 			    }
 		   
-			    // Print all nodes by score with ranks
-			    
 			    for(int i=0; i<count; i++) {
-			        file << setw(7) << temp->readNo()
-						 << setw(10) << temp->readRun() 
-						 << setw(23) << temp->readName()  << endl;
+					file << nodes[i].readNo()
+						 << " " << nodes[i].readRun() 
+						 << " " << nodes[i].readName()  << endl;
 			    }
 			}
-			else {  // When head is empt
+			else {  // When head is empty
 				return;
 			}
 		}
 
 };
 
-STNODE1* readfile(){
-	STNODE1 *x;
-	string na, test;
-	int a;
-	ifstream input("datacs.txt");
-	while (!input.eof()){
-		x = new node;
-		input >> x->no;
-		input >> x->eng;
-		input >> x->cmp;
-        x->name = getline(input, na);
-		input.get();
-		x = x->writeptr(x);
-	}
-	input.close();
-	return x;
-}
+
 
 
 int main() {
@@ -811,10 +824,9 @@ int main() {
 	STNODE2 *temp2;
 	linkedList L1;
 	linkedList2 L2;
-	ofstream file("datacs.txt");
-	ofstream file2("datape.txt");
 	L1.readfile();
-   
+    ofstream file("datacs.txt");
+	ofstream file2("datape.txt");
 	while(m.readselect()) {
 		cout << endl; // Leave Space
 		
@@ -828,8 +840,8 @@ int main() {
 		m.writeselect(sel); // Input Selection
 		
 		switch(m.readselect()) {
-			case 0: // Exit
-				cout << "You choose to leave." << endl ;
+			case 0: // Exit	
+				cout << "You choose to leave." << endl ;				
 				L1.output(file);
 				L2.output(file2);
 				file.close();
