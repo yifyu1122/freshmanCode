@@ -795,9 +795,9 @@ class linkedList2{
 			                srank++;
 			            }
 			        }
-			        file << setw(23) << temp->readName()
-						 << setw(10) << temp->readNo() 
-						 << setw(7) << temp->readRun()  << endl;
+					file << setw(7) << nodes[i].readNo()
+						 << setw(10) << nodes[i].readRun() 
+						 << setw(23) << nodes[i].readName()  << endl;
 			    }
 			}
 			else {  // When head is empty
