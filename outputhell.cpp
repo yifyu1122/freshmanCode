@@ -473,7 +473,7 @@ class linkedList{
 			char name[20];
 			ifstream input("datacs.txt");
 			if (!input) {
-                cerr << "datacs.txt doesn't exist'" << endl;
+                cerr << "datacs.txt doesn't exist" << endl;
                 return 0;
             }
 			while (input >> no >> eng >> cmp){				
@@ -820,7 +820,7 @@ class linkedList2{
 			char name[20];
 			ifstream input("datape.txt");
 			if (!input) {
-                cerr << "datape.txt doesn't exist'" << endl;
+                cerr << "datape.txt doesn't exist" << endl;
                 return 0;
             }
 			while (input >> no >> run){				
@@ -862,8 +862,10 @@ int main() {
 	linkedList2 L2;
 	L1.readfile();
 	L2.readfile();
-    ofstream file("datacs.txt");
-	ofstream file2("datape.txt");
+    ofstream file;
+	ofstream file2;
+	file.open("datacs.txt", ios::app);
+	file2.open("datape.txt", ios::app);
 	while(m.readselect()) {
 		cout << endl; // Leave Space		
 		m.show();  // Call the Menu
