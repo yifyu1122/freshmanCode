@@ -1,0 +1,28 @@
+#include <iostream>
+using namespace std;
+
+template<class T>
+//void Sort(T *a, int size){
+//	........
+//}
+void Sort(T *a, int size){
+	for(int j=0;j<size-1;j++){
+		for(int i=0;i<size-1;i++){
+			if(a[i]>a[i+1]){
+				swap(a[i], a[i+1]);
+			}
+		}
+	}
+	for(int i=0; i<size-1;i++){
+		
+	}
+}
+
+//Sort<int>(x, 5);
+//Sort<char>(2, 5);
+
+int main(){
+	int a[5] = {5, 4, 3, 2, 1};
+	float b[5] = {7, 8, 9, 10, 11};
+	Sort(x, 5);
+}
