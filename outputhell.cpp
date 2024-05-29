@@ -57,18 +57,18 @@ class ST{
 		void writeNo(int data){
 			no = data;
 		}
-		void writeName(char data[20]){
-			strcpy(name, data);
+		void writeName(string data){
+			name = data;
 		}
 		int readNo(){
 			return no;
 		}
-		char *readName(){
+		string readName(){
 			return name;
 		}
 	protected:
 		int no;
-		char name[20];
+		string name;
 };
 
 class STNODE1: public ST{	
@@ -250,7 +250,7 @@ class linkedList{
             
             // Print out all the names
             while(rear != NULL) {
-				if(strcmp(name, rear->readName()) == 0) {
+				if(name == rear->readName()) {
 					cout <<  "||         Name        || Number || Eng || Cmp || Total ||" << endl ;
 		        	printNode(rear);
 		        	flag++; // Flag increase when student is found
@@ -470,7 +470,6 @@ class linkedList{
 			STNODE1 *tail = NULL;
 			string na;
 			int no, eng, cmp;
-			char name[20];
 			ifstream input("datacs.txt");
 			if (!input) {
                 cerr << "datacs.txt doesn't exist" << endl;
@@ -480,9 +479,7 @@ class linkedList{
 				input.ignore();
 				getline(input, na);
 				STNODE1 *temp = new STNODE1;
-				const char* c_str = na.c_str();
-				strcpy(name, c_str);
-				temp->writeName(name);
+				temp->writeName(na);
 				temp->writeNo(no);
 				temp->writeEng(eng);
 				temp->writeCmp(cmp);
@@ -611,7 +608,7 @@ class linkedList2{
             
             // Print out all the names
             while(rear != NULL) {
-				if(strcmp(name, rear->readName()) == 0) {
+				if(name==rear->readName()) {
 					cout << "==========================" << endl;
 		        	printNode(rear);
 		        	flag++; // Flag increase when student is found
@@ -790,7 +787,7 @@ class linkedList2{
 			        times = times->readPtr();
 			    }
 			    
-			    for (int i=0; i<count; i++){
+			    for (int i=0; i<count; i++) {
 			        flag = 0;
 			        for (int j=0; j<count-i-1; j++)
 			            if ( nodes[j].readRun() < nodes[j+1].readRun()){
@@ -802,7 +799,7 @@ class linkedList2{
 					}
 			    }
 		   
-			    for(int i=0; i<count; i++) {
+			    for (int i=0; i<count; i++) {
 					file << nodes[i].readNo()
 						 << " " << nodes[i].readRun() 
 						 << " " << nodes[i].readName()  << endl;
@@ -817,7 +814,6 @@ class linkedList2{
 			STNODE2 *tail = NULL;
 			string na;
 			int no, run;
-			char name[20];
 			ifstream input("datape.txt");
 			if (!input) {
                 cerr << "datape.txt doesn't exist" << endl;
@@ -827,9 +823,7 @@ class linkedList2{
 				input.ignore();
 				getline(input, na);
 				STNODE2 *temp = new STNODE2;
-				const char* c_str = na.c_str();
-				strcpy(name, c_str);
-				temp->writeName(name);
+				temp->writeName(na);
 				temp->writeNo(no);
 				temp->writeRun(run);
 		        
