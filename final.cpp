@@ -77,7 +77,7 @@ class Food: public Merch{
 		void writeDate(float data){
 			date = data;
 		}
-		int readDate(){
+		float readDate(){
 		    return date;
 		}
 		void writePtr(Food *b){
@@ -93,7 +93,7 @@ class Food: public Merch{
 			ptr = NULL;
 		}
 	protected:
-		int date;
+		float date;
 		Food *ptr;
 };
 
@@ -143,7 +143,8 @@ class List {
 
 		void insert(Food *temp) {
 		    char name[20];
-		    int price, stock, date;
+		    int price, stock;
+			float date;
 		    
 			if (isEmpty()) {
 			    Food *rear = head;
@@ -239,7 +240,7 @@ class List {
 			// Print while none is found
 			if(rear==NULL) {
 				if(!isEmpty()) {
-					cout << "Merch doesn't exist!�]Database is NULL!�^" << endl;
+					cout << "Merch doesn't exist!（Database is NULL!）" << endl;
 				}
 				else if(flag==0) { // If flag is 0, none merch is found. Therefore, merch doesn't exist.
 					cout << "Merch doesn't exist!" << endl;	
@@ -445,13 +446,15 @@ class List {
 		Food *readfile(){
 			Food *tail = NULL;
 			string na;
-			int no, date, price, stock;
+			int no,price, stock;
+			float date;
 			ifstream input("product.txt");
 			if (!input) {
                 cerr << "product.txt doesn't exist" << endl;
                 return 0;
             }
-			while (input >> no >> date >> price >> stock){				
+			while (input >> no && !input.eof()){
+				input >> date >> price >> stock;				
 				input.ignore();
 				getline(input, na);
 				Food *temp = new Food;
